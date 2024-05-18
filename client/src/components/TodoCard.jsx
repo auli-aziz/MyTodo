@@ -9,23 +9,33 @@ export default function TodoCard({
   content,
   completeTodo,
   deleteTodo,
+  isAdding
 }) {
   const [taskName, setTaskName] = useState(content);
   const [isChecked, setIsChecked] = useState(isCompleted);
   const [isEditing, setIsEditing] = useState(false);
+  const [isNew, setIsNew] = useState(isAdding);
 
-  const handleEditing = async (id, newContent) => {
-    console.log("Handle editing clicked");
-    try {
-      await axios.put(API_BASE + "/todos/" + id, { content: newContent });
-    } catch (error) {
-      console.log("Error: " + error);
+  const editTask = async (id, newContent) => {
+    if(isAdding) {
+      try {
+        await axios.post(API_BASE + "/todos", { content: newContent});
+      } catch(error) {
+        console.log("Error: " + error);
+      }
+    } else {
+      try {
+        await axios.put(API_BASE + "/todos/" + id, { content: newContent });
+      } catch (error) {
+        console.log("Error: " + error);
+      }
     }
+    setIsNew(false);
     setIsEditing(false);
+    console.log("First block finished - isNew: " + isNew + " isEditing: " + isEditing);
   };
   const handleNameChange = (event) => {
     setTaskName(event.target.value);
-    console.log(taskName);
   };
   return (
     <div className="w-full h-fit mb-3 flex items-center bg-blue-950 py-3 px-6 rounded-xl border-2">
@@ -64,8 +74,8 @@ export default function TodoCard({
       </div>
       <div className="absolute right-16 md:right-44 flex items-center">
         <div className="flex text-neutral-200 hover:text-white text-2xl">
-          {isEditing ? (
-            <div onClick={() => handleEditing(id, taskName)}>
+          {isEditing || isNew ? (
+            <div onClick={() => editTask(id, taskName)}>
               <ion-icon name="save-outline"></ion-icon>
             </div>
           ) : (
