@@ -14,54 +14,53 @@ export default function TodoList() {
   const { user } = useAuthContext();
 
   useEffect(() => {
-    if(user) {
+    if (user) {
       getTodos();
     }
   }, [user]);
 
   const getTodos = async () => {
     try {
-      // const responsee = await fetch(API_BASE + "/api/workouts", {
-      //   headers: {
-      //     'Authorization': `Bearer ${user.token}`
-      //   }
-      // });
       const response = await axios.get(API_BASE + "/todos", {
         headers: {
-          Authorization: `Bearer ${user.token}`
-        }
+          Authorization: `Bearer ${user.token}`,
+        },
       });
-      console.log(todos);
       setTodos(response.data);
     } catch (error) {
       console.log("Error: " + error);
     }
   };
   const completeTodo = async (id) => {
-    if(!user) {
+    if (!user) {
       return;
     }
     try {
-      await axios.put(API_BASE + "/todos/complete/" + id, {
-        headers: {
-          Authorization: `Bearer ${user.token}`
+      console.log(user.token);
+      await axios.put(
+        API_BASE + "/todos/complete/" + id,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
         }
-      });
+      );
     } catch (error) {
       console.log(id);
       console.log("Error: " + error);
     }
   };
   const deleteTodo = async (id) => {
-    if(!user) {
+    if (!user) {
       return;
     }
-    console.log("deleteTodoClicked");
     try {
       await axios.delete(API_BASE + "/todos/" + id, {
         headers: {
-          Authorization: `Bearer ${user.token}`
-        }
+          Authorization: `Bearer ${user.token}`,
+        },
       });
       setTodos((todos) => todos.filter((todo) => todo._id !== id));
     } catch (error) {
