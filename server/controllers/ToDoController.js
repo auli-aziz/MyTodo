@@ -1,4 +1,4 @@
-import Todos from "../models/TodoSchema.js";
+import Todos from "../models/TodoModel.js";
 
 export const getTodos = async (req, res, next) => {
   try {
@@ -9,21 +9,21 @@ export const getTodos = async (req, res, next) => {
   }
 };
 
-export const getTodoById = async (req, res, next) => {
-  const id = req.params.todoId;
-  try {
-    const todo = await Todos.findById(id);
-    if (!todo) {
-      const error = new Error("Todo not found");
-      error.status = 404;
-      error.message = "Todo not found";
-      throw error;
-    }
-    res.status(200).json(todo);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+// export const getTodoById = async (req, res, next) => {
+//   const id = req.params.todoId;
+//   try {
+//     const todo = await Todos.findById(id);
+//     if (!todo) {
+//       const error = new Error("Todo not found");
+//       error.status = 404;
+//       error.message = "Todo not found";
+//       throw error;
+//     }
+//     res.status(200).json(todo);
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
 
 export const postTodo = async (req, res, next) => {
   const todo = new Todos({ content: req.body.content });

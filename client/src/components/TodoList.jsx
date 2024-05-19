@@ -76,7 +76,6 @@ export default function TodoList() {
             completeTodo={completeTodo}
             deleteTodo={deleteTodo}
             isAdding={todo.isAdding}
-            
           />
         </div>
       ))}

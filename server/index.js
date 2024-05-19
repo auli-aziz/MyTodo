@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 
-import TodoRoute from "./routes/TodoRoute.js"
+import TodoRoute from "./routes/TodoRoute.js";
+import UserRoute from "./routes/UserRoute.js";
 import { connectDatabase } from "./config/db.js";
 
 const PORT = process.env.PORT || 3001;
@@ -17,6 +18,7 @@ app.use(cors());
 
 connectDatabase();
 
-app.use(TodoRoute)
+app.use("/user", UserRoute)
+app.use("/todos", TodoRoute)
 
 app.listen(PORT, () => console.log(`Server is Running on port ${PORT}...`));
