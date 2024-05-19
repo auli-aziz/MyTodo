@@ -36,7 +36,6 @@ export default function TodoList() {
       return;
     }
     try {
-      console.log(user.token);
       await axios.put(
         API_BASE + "/todos/complete/" + id,
         {},
@@ -48,7 +47,6 @@ export default function TodoList() {
         }
       );
     } catch (error) {
-      console.log(id);
       console.log("Error: " + error);
     }
   };

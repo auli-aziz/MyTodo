@@ -2,7 +2,8 @@ import Todos from "../models/TodoModel.js";
 
 export const getTodos = async (req, res, next) => {
   try {
-    const todos = await Todos.find();
+    const user_id = req.user._id;
+    const todos = await Todos.find({ user_id });
     res.status(200).json(todos);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -26,8 +27,11 @@ export const getTodos = async (req, res, next) => {
 // };
 
 export const postTodo = async (req, res, next) => {
-  const todo = new Todos({ content: req.body.content });
   try {
+    const todo = new Todos({
+      content: req.body.content,
+      user_id: req.user._id,
+    });
     const insertTodo = await todo.save();
     res
       .status(201)

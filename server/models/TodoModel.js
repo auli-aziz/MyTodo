@@ -9,10 +9,10 @@ const TodoSchema = mongoose.Schema({
     type: Boolean,
     default: false
   },
-  timestamp: {
+  user_id: {
     type: String,
-    default: Date.now()
+    require: true
   }
-});
+}, { timestamps: true });
 
 export default mongoose.model("Todos", TodoSchema);
