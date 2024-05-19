@@ -4,6 +4,7 @@ import Todo from "./pages/Todo.jsx";
 import Signup from "./pages/Signup.jsx";
 import Login from "./pages/Login.jsx";
 import NavBar from "./components/NavBar.jsx";
+import Footer from "./components/Footer.jsx";
 
 function App() {
   const { user } = useAuthContext();
@@ -19,6 +20,7 @@ function App() {
             <Route path="/" element={user ? <Todo /> : <Navigate to="/login" />} />
           </Routes>
         </div>
+          <Footer />
       </BrowserRouter>
     </>
   );

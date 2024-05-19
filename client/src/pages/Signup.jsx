@@ -56,7 +56,7 @@ export default function Signup() {
         >
           Submit
         </button>
-        {error && <div className="">{error}</div>}
+        {error && <div className="flex justify-center bg-red-300 border-2 border-red-500 px-5 mt-2 text-red-800  rounded-md">{error}</div>}
       </form>
     </div>
   );
