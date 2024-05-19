@@ -1,15 +1,23 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
-
-import TodoList from "./components/TodoList.jsx";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Todo from "./pages/Todo.jsx";
+import Signup from "./pages/Signup.jsx";
+import Login from "./pages/Login.jsx";
+import NavBar from "./components/NavBar.jsx";
 
 function App() {
   return (
-    <div className="bg-gray-800 w-full min-h-screen p-10">
-      <h1 className="text-white text-xl font-mono mb-5">Welcome, Aulia</h1>
-      
-      <TodoList />
-    </div>
+    <>
+      <BrowserRouter>
+        <NavBar />
+        <div className="mt-10 bg-gray-800 w-full min-h-screen p-10 md:p-16">
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/" element={<Todo />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </>
   );
 }
 
