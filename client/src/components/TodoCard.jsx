@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 const API_BASE = "http://localhost:3001";
 
@@ -9,7 +9,7 @@ export default function TodoCard({
   content,
   completeTodo,
   deleteTodo,
-  isAdding
+  isAdding,
 }) {
   const [taskName, setTaskName] = useState(content);
   const [isChecked, setIsChecked] = useState(isCompleted);
@@ -17,10 +17,10 @@ export default function TodoCard({
   const [isNew, setIsNew] = useState(isAdding);
 
   const editTask = async (id, newContent) => {
-    if(isAdding) {
+    if (isAdding) {
       try {
-        await axios.post(API_BASE + "/todos", { content: newContent});
-      } catch(error) {
+        await axios.post(API_BASE + "/todos", { content: newContent });
+      } catch (error) {
         console.log("Error: " + error);
       }
     } else {
@@ -32,7 +32,9 @@ export default function TodoCard({
     }
     setIsNew(false);
     setIsEditing(false);
-    console.log("First block finished - isNew: " + isNew + " isEditing: " + isEditing);
+    console.log(
+      "First block finished - isNew: " + isNew + " isEditing: " + isEditing
+    );
   };
   const handleNameChange = (event) => {
     setTaskName(event.target.value);
