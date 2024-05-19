@@ -1,12 +1,15 @@
 import { useState } from "react";
+import { useLogin } from "../hooks/useLogin";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { login, isLoading, error } = useLogin();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(email, password);
+    console.log("handleSubmit!",email,password)
+    await login(email, password);
   };
 
   return (
@@ -34,7 +37,13 @@ export default function Signup() {
             className="p-1 my-3 rounded-sm text-black"
           />
         </div>
-        <button className="mt-7 px-7 py-1 bg-slate-900 hover:bg-slate-950 rounded-md">Submit</button>
+        <button
+          className="mt-7 px-7 py-1 bg-slate-900 hover:bg-slate-950 rounded-md"
+          disabled={isLoading}
+        >
+          Submit
+        </button>
+        { error && <div className="flex justify-center bg-red-300 border-2 border-red-500 px-5 mt-2 text-red-800  rounded-md">{error}</div>}
       </form>
     </div>
   );
