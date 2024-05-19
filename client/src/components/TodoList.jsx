@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import TodoCard from "./TodoCard.jsx";
+import { useAuthContext } from "../hooks/useAuthContext.jsx";
 
 const API_BASE = "http://localhost:3001";
 
@@ -9,14 +10,27 @@ export default function TodoList() {
   const [newTodo, setNewTodo] = useState(null);
   const dragTodo = useRef(0);
   const draggedOverTodo = useRef(0);
+  // authentication
+  const { user } = useAuthContext();
 
   useEffect(() => {
-    getTodos();
-  }, []);
+    if(user) {
+      getTodos();
+    }
+  }, [user]);
 
   const getTodos = async () => {
     try {
-      const response = await axios.get(API_BASE + "/todos");
+      // const responsee = await fetch(API_BASE + "/api/workouts", {
+      //   headers: {
+      //     'Authorization': `Bearer ${user.token}`
+      //   }
+      // });
+      const response = await axios.get(API_BASE + "/todos", {
+        headers: {
+          Authorization: `Bearer ${user.token}`
+        }
+      });
       console.log(todos);
       setTodos(response.data);
     } catch (error) {
@@ -24,22 +38,37 @@ export default function TodoList() {
     }
   };
   const completeTodo = async (id) => {
+    if(!user) {
+      return;
+    }
     try {
-      await axios.put(API_BASE + "/todos/complete/" + id);
+      await axios.put(API_BASE + "/todos/complete/" + id, {
+        headers: {
+          Authorization: `Bearer ${user.token}`
+        }
+      });
     } catch (error) {
       console.log(id);
       console.log("Error: " + error);
     }
   };
   const deleteTodo = async (id) => {
+    if(!user) {
+      return;
+    }
     console.log("deleteTodoClicked");
     try {
-      await axios.delete(API_BASE + "/todos/" + id);
+      await axios.delete(API_BASE + "/todos/" + id, {
+        headers: {
+          Authorization: `Bearer ${user.token}`
+        }
+      });
       setTodos((todos) => todos.filter((todo) => todo._id !== id));
     } catch (error) {
       console.log("Error: " + error);
     }
   };
+  // new task
   const addNewTodo = () => {
     const newTodo = {
       _id: Date.now().toString(),
@@ -50,6 +79,7 @@ export default function TodoList() {
     setNewTodo(newTodo);
     setTodos([...todos, newTodo]);
   };
+  // draggable
   const handleSort = () => {
     const todoClone = [...todos];
     const temp = todoClone[dragTodo.current];

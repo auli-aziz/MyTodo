@@ -6,8 +6,12 @@ import {
   deleteTodo,
   completeTodo,
 } from "../controllers/ToDoController.js";
+import { requireAuth } from "../middleware/requireAuth.js";
+
 
 const router = express.Router();
+
+router.use(requireAuth);
 
 router.get("/", getTodos);
 // router.get("/:todoId", getTodoById);

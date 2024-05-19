@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useRef } from "react";
+import { useAuthContext } from "../hooks/useAuthContext.jsx";
 
 const API_BASE = "http://localhost:3001";
 
@@ -15,26 +16,37 @@ export default function TodoCard({
   const [isChecked, setIsChecked] = useState(isCompleted);
   const [isEditing, setIsEditing] = useState(false);
   const [isNew, setIsNew] = useState(isAdding);
+  //authentication
+  const { user } = useAuthContext();
 
   const editTask = async (id, newContent) => {
+    if(!user) {
+      console.log("Unauthenticated")
+      return;
+    }
     if (isAdding) {
       try {
-        await axios.post(API_BASE + "/todos", { content: newContent });
+        await axios.post(API_BASE + "/todos", { content: newContent }, {
+          headers: {
+            Authorization: `Bearer ${user.token}`
+          }
+        });
       } catch (error) {
         console.log("Error: " + error);
       }
     } else {
       try {
-        await axios.put(API_BASE + "/todos/" + id, { content: newContent });
+        await axios.put(API_BASE + "/todos/" + id, { content: newContent }, {
+          headers: {
+            Authorization: `Bearer ${user.token}`
+          }
+        });
       } catch (error) {
         console.log("Error: " + error);
       }
     }
     setIsNew(false);
     setIsEditing(false);
-    console.log(
-      "First block finished - isNew: " + isNew + " isEditing: " + isEditing
-    );
   };
   const handleNameChange = (event) => {
     setTaskName(event.target.value);

@@ -1,6 +1,5 @@
 import Users from "../models/UserModel.js";
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
 
 const createToken = (id) => {
   return jwt.sign({ _id: id }, process.env.SECRET_TOKEN, { expiresIn: "1d" });
