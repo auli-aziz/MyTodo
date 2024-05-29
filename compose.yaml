@@ -6,9 +6,8 @@ services:
       - todo-database
     ports:
       - 3001:3001
-    environment:
-      MONGODB_URI: mongodb+srv://auliaanugrahaziz:wRG1FlvuVLzTHhhe@cluster0.gexghhr.mongodb.net/Modul9SBD
-      SECRET_TOKEN: helloWorld
+    env_file:
+      - ./server/.env
 
   client:
     build:
