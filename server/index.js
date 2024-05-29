@@ -18,6 +18,9 @@ app.use(cors());
 
 connectDatabase();
 
+app.get("/", (req, res) => {
+  res.json({message: "Hello from docker"});
+});
 app.use("/user", UserRoute)
 app.use("/todos", TodoRoute)
 

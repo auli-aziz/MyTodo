@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 export const connectDatabase = async () => {
-  const URI = process.env.MONGODB_URI;
+  const URI = "mongodb+srv://auliaanugrahaziz:wRG1FlvuVLzTHhhe@cluster0.gexghhr.mongodb.net/Modul9SBD";
 
   mongoose
     .connect(URI)

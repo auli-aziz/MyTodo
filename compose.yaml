@@ -1,0 +1,24 @@
+services:
+  server:
+    build:
+      context: ./server
+    depends_on:
+      - todo-database
+    ports:
+      - 3001:3001
+    environment:
+      MONGODB_URI: mongodb+srv://auliaanugrahaziz:wRG1FlvuVLzTHhhe@cluster0.gexghhr.mongodb.net/Modul9SBD
+      SECRET_TOKEN: helloWorld
+
+  client:
+    build:
+      context: ./client
+    depends_on:
+      - server
+    ports:
+      - 5173:5173
+
+  todo-database:
+    image: mongo:6
+    ports:
+      - 27018:27017
